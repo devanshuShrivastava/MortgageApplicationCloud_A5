@@ -11,7 +11,7 @@ module.exports = {
     fullName:{type:'string', columnName:'fullName'},
     designation:{type:'string', columnName:'designation'},
     salary:{type:'string', columnName:'salary'},
-    salary:{type:'number', columnName:'tenure'}
+    tenure:{type:'number', columnName:'tenure'}
   },
 };
 
