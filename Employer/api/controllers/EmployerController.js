@@ -30,7 +30,7 @@ module.exports = {
         res.send(500, { error: "Database Error" });
       }
     });
-    res.redirect("http://localhost:1337/employee/results?empID="+empID);
+    res.redirect("https://company-portal-frontend.herokuapp.com/employee/results?empID="+empID);
   },
 //BONUS
   list: function(req, res) {
@@ -56,10 +56,10 @@ module.exports = {
          res.send("Failed to authenticate the employee with the ID " + employeeId);
        }
          if(data.password === password){
-            res.redirect("http://localhost:1337/employee/authenticate?authenticated=true&empID="+employeeId);
+            res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=true&empID="+employeeId);
          }
          else{
-          res.redirect("http://localhost:1337/employee/authenticate?authenticated=false");
+          res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=false");
        }
       })
     },
@@ -85,7 +85,7 @@ module.exports = {
         console.log("URL -> "+endpointURL);
         res.redirect(endpointURL);
        })
-    },   
+    },
 
     authenticateUser: function (req, res) {
       var password=req.body.password;
@@ -106,5 +106,5 @@ module.exports = {
             res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=false");
           }
       })
-    },  
+    },
 };
