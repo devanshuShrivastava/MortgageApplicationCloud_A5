@@ -42,28 +42,6 @@ module.exports = {
       res.send(emp);
     });
   },
-
-  authenticateUser: function (req, res) {
-    var password=req.body.password;
-    var employeeId = req.body.empID;
-     Employer.find({empID: employeeId}).exec(function(err, result) {
-       var data = result[0];
-       if (err) {
-         res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
-       }
-
-       if(0 == result.length) {
-         res.send("Failed to authenticate the employee with the ID " + employeeId);
-       }
-         if(data.password === password){
-            res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=true&empID="+employeeId);
-         }
-         else{
-          res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=false");
-       }
-      })
-    },
-
     supplyMBRinfo:function(req, res) {
       var employeeId = req.body.empID;
       var address = req.body.address;
@@ -85,8 +63,23 @@ module.exports = {
         }
         var endpointURL = address+"?name="+name+"&email="+email+"&id="+mbrID+"&tenure="+tenure+"&salary="+salary+"";
         console.log("URL -> "+endpointURL);
-        res.send(endpointURL);
-       })
+        // res.send(endpointURL);
+
+        request.get({
+          type: "POST",
+          url: endpointURL,
+          data: JSON.stringify(result[0]),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json"},
+          function(error, response, body) {
+            if (error) {
+              console.log(error);
+            }
+            else {
+              res.send(response);
+            }
+        })
+      });
     },
 
     authenticateUser: function (req, res) {
