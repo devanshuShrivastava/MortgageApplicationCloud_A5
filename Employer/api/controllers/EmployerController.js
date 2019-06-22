@@ -63,17 +63,17 @@ module.exports = {
         }
         var endpointURL = address+"?name="+name+"&email="+email+"&id="+mbrID+"&tenure="+tenure+"&salary="+salary+"";
         request.post({
-          type: "POST",
           url: endpointURL,
           data: JSON.stringify(result[0]),
-          contentType: "application/json; charset=utf-8",
+          headers:{'content-type' : "application/json; charset=utf-8"},
+          body: JSON.stringify(result[0]),
           dataType: "json"},
           function(error, response, body) {
             if (error) {
               console.log(error);
             }
             else {
-              res.send("We have forwarded your application. Please check MBR portal for the application progress.");
+              res.send("We have forwarded your application. Please check MBR portal for the application progress."+response);
             }
         })
         res.send("We have forwarded your application. Please check MBR portal for the application progress.");
