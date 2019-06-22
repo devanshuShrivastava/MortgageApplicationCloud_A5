@@ -62,21 +62,24 @@ module.exports = {
           res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
         }
         var endpointURL = address+"?name="+name+"&email="+email+"&id="+mbrID+"&tenure="+tenure+"&salary="+salary+"";
+        // res.redirect(endpointURL);
         request.post({
           url: endpointURL,
-          data: JSON.stringify(result[0]),
           headers:{'content-type' : "application/json; charset=utf-8"},
-          body: JSON.stringify(result[0]),
-          dataType: "json"},
+          body: JSON.stringify(result[0])
+        },
           function(error, response, body) {
             if (error) {
               console.log(error);
             }
             else {
+              console.log(body);
+              console.log(response);
+
               res.send("We have forwarded your application. Please check MBR portal for the application progress."+response);
             }
         })
-        res.send("</h1>We have forwarded your application. Please check MBR portal for the application asd progress.</h1>");
+        // res.send("</h1>We have forwarded your application. Please check MBR portal for the application asd progress.</h1>");
 
       });
     },
