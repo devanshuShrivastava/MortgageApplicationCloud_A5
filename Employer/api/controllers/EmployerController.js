@@ -76,7 +76,7 @@ module.exports = {
               res.send("We have forwarded your application. Please check MBR portal for the application progress."+response);
             }
         })
-        res.send("We have forwarded your application. Please check MBR portal for the application progress.");
+        res.send("</h1>We have forwarded your application. Please check MBR portal for the application progress.</h1>");
 
       });
     },
