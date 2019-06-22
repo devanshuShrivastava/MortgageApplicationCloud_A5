@@ -66,6 +66,8 @@ module.exports = {
 
     supplyMBRinfo:function(req, res) {
       var employeeId = req.body.empID;
+      var address = req.body.address;
+
       console.log("sdfsdfsdfsdfsd=>"+ employeeId);
 
       Employer.find({empID: employeeId}).exec(function(err, result) {
@@ -81,9 +83,9 @@ module.exports = {
         if (err) {
           res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
         }
-        var endpointURL = "https://cloud-mortgage-web-service.herokuapp.com/verify?name="+name+"&email="+email+"&id="+mbrID+"&tenure="+tenure+"&salary="+salary+"";
+        var endpointURL = address+"?name="+name+"&email="+email+"&id="+mbrID+"&tenure="+tenure+"&salary="+salary+"";
         console.log("URL -> "+endpointURL);
-        res.redirect(endpointURL);
+        res.send(endpointURL);
        })
     },
 
