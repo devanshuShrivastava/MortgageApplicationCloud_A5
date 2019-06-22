@@ -56,16 +56,13 @@ module.exports = {
         var designation = data.designation;
         var salary = data.salary;
         var email = data.email;
-        var mbrID = 1;
+        var mbrID = data.mbrID;
 
         if (err) {
           res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
         }
         var endpointURL = address+"?name="+name+"&email="+email+"&id="+mbrID+"&tenure="+tenure+"&salary="+salary+"";
-        console.log("URL -> "+endpointURL);
-        // res.send(endpointURL);
-
-        request.get({
+        request.post({
           type: "POST",
           url: endpointURL,
           data: JSON.stringify(result[0]),
@@ -76,9 +73,11 @@ module.exports = {
               console.log(error);
             }
             else {
-              res.send(response);
+              res.send("We have forwarded your application. Please check MBR portal for the application progress.");
             }
         })
+        res.send("We have forwarded your application. Please check MBR portal for the application progress.");
+
       });
     },
 
