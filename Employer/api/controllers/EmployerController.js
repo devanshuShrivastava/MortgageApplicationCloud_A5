@@ -58,6 +58,7 @@ module.exports = {
         var salary = data.salary;
         var email = data.email;
         var mbrID = mbrID;
+        console.log(mbrID + "Hello");
 
         if (err) {
           res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
