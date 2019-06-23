@@ -45,6 +45,7 @@ module.exports = {
     supplyMBRinfo:function(req, res) {
       var employeeId = req.body.empID;
       var address = req.body.address;
+      var mbrID = req.body.mbrID;
 
       console.log("sdfsdfsdfsdfsd=>"+ employeeId);
 
@@ -56,14 +57,14 @@ module.exports = {
         var designation = data.designation;
         var salary = data.salary;
         var email = data.email;
-        var mbrID = data.mbrID;
+        var mbrID = mbrID;
 
         if (err) {
           res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
         }
         var endpointURL = address+"?name="+name+"&email="+email+"&id="+mbrID+"&tenure="+tenure+"&salary="+salary+"";
         // res.redirect(endpointURL);
-        console.log(mbrID);
+        console.log(mbrID + "Hello");
 
         request.post({
           url: endpointURL,
