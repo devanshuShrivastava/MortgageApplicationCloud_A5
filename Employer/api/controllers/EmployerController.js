@@ -54,10 +54,9 @@ module.exports = {
         console.log(data)
         var name = data.fullName;
         var tenure = data.tenure;
-        var designation = data.designation;
+        // var designation = data.designation;
         var salary = data.salary;
         var email = data.email;
-        var mbrID = mbrID;
         console.log(mbrID + "Hello");
 
         if (err) {
@@ -67,10 +66,8 @@ module.exports = {
         // res.redirect(endpointURL);
         console.log(mbrID + "Hello");
 
-        request.post({
-          url: endpointURL,
-          headers:{'content-type' : "application/json; charset=utf-8"},
-          body: JSON.stringify(result[0])
+        request.get({
+          url: endpointURL
         },
           function(error, response, body) {
             console.log(endpointURL);
@@ -83,11 +80,17 @@ module.exports = {
               console.log(response);
               console.log(endpointURL);
 
-              // res.send("We have forwarded your application. Please check MBR portal for the application progress."+response);
+              var bodyObject = JSON.parse(body);
+              var status = bodyObject.status;
+
+              if("success" == status) {
+                res.send("<h2>We have successfully forwarded your application.</h2> <h2>Please check MBR portal for the application progress.</h2>");
+              }
+              else {
+                res.send("<h2>We have forwarded your application, but some error happened on the MBR side.</h2> <h2> MBR response is: "+body + "</h2>");
+              }
             }
         })
-        // res.send("</h1>We have forwarded your application. Please check MBR portal for the application asd progress.</h1>");
-
       });
     },
 

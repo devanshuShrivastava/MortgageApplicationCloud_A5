@@ -22,8 +22,6 @@ module.exports.routes = {
   '/': { view: 'pages/homepage' },
   '/create': {controller: 'employer', action: 'create'},
   '/list': {controller: 'employer', action: 'list'},
-  '/authenticate-and-send-info-to-broker': {controller: 'employer', action: 'authenticate-and-send-info-to-broker'},
-
 
   /***************************************************************************
   *                                                                          *
