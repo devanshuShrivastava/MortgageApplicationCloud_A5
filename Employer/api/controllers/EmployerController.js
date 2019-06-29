@@ -59,7 +59,7 @@ module.exports = {
     console.log("sdfsdfsdfsdfsd=>"+ employeeId);
 
     Employer.find({empID: employeeId}).exec(function(err, result) {
-      var data = result[0];
+      var data = result;
       console.log(data)
       var name = data.fullName;
       var tenure = data.tenure;
