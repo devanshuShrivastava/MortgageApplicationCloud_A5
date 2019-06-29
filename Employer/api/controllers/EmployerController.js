@@ -16,7 +16,8 @@ module.exports = {
     var salary = req.body.salary;
     var password = req.body.password;
     var tenure = req.body.tenure;
-    var empID = Math.random() * Math.floor(1);
+    var empID = Math.random();
+    console.log(empID)
     Employer.create({
       empID: empID,
       email: email,
