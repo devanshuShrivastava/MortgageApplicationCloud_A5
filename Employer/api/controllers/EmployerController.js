@@ -51,17 +51,7 @@ module.exports = {
       });
 
   },
-//BONUS
-  list: function(req, res) {
-    var log = "Data recieved from the company.";
-      var timestamp = new Date().getTime();
-      var server = "MBR"
-      Logger.create({time:timestamp,log:log,server:server}).exec(function(err){
-                  if(err){
-              res.send(500,{error:'Database Error'});
-          }
-      });
-  },
+
   MBRcall: function(req, res) {
     var log = "Checking for values in the JSON response from the company server";
       var timestamp = new Date().getTime();
