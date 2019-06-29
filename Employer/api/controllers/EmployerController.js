@@ -103,7 +103,7 @@ module.exports = {
       var data = result[0];
       console.log("debanshusdajfbnasdkjfbaljks"+data);
       if (err) {
-        writeLogs("Database Error when retrieving info about employee with ID " + employeeId)
+        writeLogs("Database Error when retrieving info about employee with ID ")
         res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
       }
 
@@ -111,11 +111,9 @@ module.exports = {
         res.send("Failed to authenticate the employee with the ID " + employeeId);
       }
           if(data.password === password){
-            writeLogs("Authentic user")
             res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=true&empID="+employeeId);
           }
           else{
-            writeLogs("Not authentic user")
             res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=false");
           }
       })
