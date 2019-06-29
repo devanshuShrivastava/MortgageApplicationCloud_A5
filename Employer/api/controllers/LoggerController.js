@@ -8,7 +8,7 @@
 module.exports = {
 
 showLogs:function(req,res){
-        Logger.find().exec(function(err,log){
+        Logger.find({}).exec(function(err,log){
             if(err){
                 res.send(500,{error:'Database Error'});
             }

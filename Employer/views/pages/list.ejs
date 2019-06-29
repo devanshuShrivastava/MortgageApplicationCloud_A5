@@ -11,11 +11,10 @@
 
 
     <% logList.forEach(function(log){ %>
-      <% var i=0%>
     <tr>
       <td><%= log.id %></td>
       <td><%= log.log %></td>
-      <td><%= log.timestamp %></td>
+      <td><%= log.time %></td>
     <% }) %>
     </tr>
   </tbody>
