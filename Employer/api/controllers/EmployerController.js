@@ -38,7 +38,7 @@ module.exports = {
         res.send(500, { error: "Database Error" });
         });
       }
-      var log = "Packet is complete.";
+      var log = "Employer profile completed.";
       var timestamp = new Date().getTime();
       var server = "Company"
       Logger.create({time:timestamp,log:log,server:server}).exec(function(err){
@@ -53,13 +53,24 @@ module.exports = {
   },
 //BONUS
   list: function(req, res) {
-    console.log("sdfsdfsdfsdfsd");
-    Employer.find({fullname:"Devanshu Srivastava"}).exec(function(err,emp) {
-      if (err) {
-        res.send(500, { error: "Database Error" });
-      }
-      res.send(emp);
-    });
+    var log = "Data recieved from the company.";
+      var timestamp = new Date().getTime();
+      var server = "MBR"
+      Logger.create({time:timestamp,log:log,server:server}).exec(function(err){
+                  if(err){
+              res.send(500,{error:'Database Error'});
+          }
+      });
+  },
+  MBRcall: function(req, res) {
+    var log = "Checking for values in the JSON response from the company server";
+      var timestamp = new Date().getTime();
+      var server = "MBR"
+      Logger.create({time:timestamp,log:log,server:server}).exec(function(err){
+                  if(err){
+              res.send(500,{error:'Database Error'});
+          }
+      });
   },
   supplyMBRinfo:function(req, res) {
     var employeeId = req.body.empID;
