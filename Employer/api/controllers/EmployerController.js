@@ -31,15 +31,16 @@ module.exports = {
         // writeLogs("Database Error")
         res.send(500, { error: "Database Error" });
       }
+      var log = "devanshu is great"
+      var timestamp = new Date().getTime();
+        Logger.create({time:timestamp,log:log}).exec(function(err){
+          if(err){
+              res.send(500,{error:'Database Error'});
+          }
+      res.redirect("https://company-portal-frontend.herokuapp.com/employee/results?empID="+empID);
+      });
     });
-    var log = "devanshu is great"
-    var timestamp = new Date().getTime();
-      Logger.create({time:timestamp,log:log}).exec(function(err){
-        if(err){
-            res.send(500,{error:'Database Error'});
-        }
-    res.redirect("https://company-portal-frontend.herokuapp.com/employee/results?empID="+empID);
-    });
+
   },
 //BONUS
   list: function(req, res) {
@@ -59,7 +60,7 @@ module.exports = {
     console.log("sdfsdfsdfsdfsd=>"+ employeeId);
 
     Employer.find({empID: employeeId}).exec(function(err, result) {
-      var data = result;
+      var data = result[0];
       console.log(data)
       var name = data.fullName;
       var tenure = data.tenure;
