@@ -30,7 +30,8 @@ module.exports = {
       if (err) {
         var log = "Database Error";
         var timestamp = new Date().getTime();
-        Logger.create({time:timestamp,log:log}).exec(function(err){
+        var server = "Company"
+        Logger.create({time:timestamp,log:log,server:server}).exec(function(err){
             if(err){
                 res.send(500,{error:'Database Error'});
             }
@@ -39,8 +40,9 @@ module.exports = {
       }
       var log = "Packet is complete.";
       var timestamp = new Date().getTime();
-      Logger.create({time:timestamp,log:log}).exec(function(err){
-          if(err){
+      var server = "Company"
+      Logger.create({time:timestamp,log:log,server:server}).exec(function(err){
+                  if(err){
               res.send(500,{error:'Database Error'});
           }
       res.redirect("https://company-portal-frontend.herokuapp.com/employee/results?empID="+empID);
@@ -77,8 +79,9 @@ module.exports = {
       var endpointURL = address+"?name="+name+"&email="+email+"&id="+mbrID+"&tenure="+tenure+"&salary="+salary+"";
       var log = "MBR id = "+mbrID;
       var timestamp = new Date().getTime();
-      Logger.create({time:timestamp,log:log}).exec(function(err){
-          if(err){
+      var server = "Company"
+      Logger.create({time:timestamp,log:log,server:server}).exec(function(err){
+                  if(err){
               res.send(500,{error:'Database Error'});
           }
       });
@@ -90,8 +93,9 @@ module.exports = {
           if (error) {
             var log = "Something went wrong";
             var timestamp = new Date().getTime();
-            Logger.create({time:timestamp,log:log}).exec(function(err){
-                if(err){
+            var server = "Company"
+            Logger.create({time:timestamp,log:log,server:server}).exec(function(err){
+                              if(err){
                     res.send(500,{error:'Database Error'});
                 }
             });
@@ -99,8 +103,9 @@ module.exports = {
           else {
             var log = "body,response,enpoint=>"+body+response+endpointURL;
             var timestamp = new Date().getTime();
-            Logger.create({time:timestamp,log:log}).exec(function(err){
-                if(err){
+            var server = "Company"
+            Logger.create({time:timestamp,log:log,server:server}).exec(function(err){
+                              if(err){
                     res.send(500,{error:'Database Error'});
                 }
             });
@@ -109,7 +114,7 @@ module.exports = {
             var status = bodyObject.status;
 
             if("success" == status) {
-              res.send("<h2><center>We have successfully forwarded your application.</h2> <h2>Please check MBR portal for the application progress.</center></h2>");
+              res.send("<h2><center>We have successfully forwarded your application.</h2> <h2><center>Please check MBR portal for the application progress.</center></center></h2>");
             }
             else {
               res.send("<h2>We have forwarded your application, but some error happened on the MBR side.</h2> <h2> MBR response is: "+body + "</h2>");
@@ -127,8 +132,9 @@ module.exports = {
       if (err) {
         var log = "Database Error when retrieving info about employee with ID "
         var timestamp = new Date().getTime();
-        Logger.create({time:timestamp,log:log}).exec(function(err){
-            if(err){
+        var server = "Company"
+        Logger.create({time:timestamp,log:log,server:server}).exec(function(err){
+                      if(err){
                 res.send(500,{error:'Database Error'});
             }
         });
@@ -141,8 +147,9 @@ module.exports = {
           if(data.password === password){
             var log = "Authentic user."
             var timestamp = new Date().getTime();
-            Logger.create({time:timestamp,log:log}).exec(function(err){
-                if(err){
+            var server = "Company"
+            Logger.create({time:timestamp,log:log,server:server}).exec(function(err){
+                              if(err){
                     res.send(500,{error:'Database Error'});
                 }
             });
@@ -151,8 +158,9 @@ module.exports = {
           else{
             var log = "Not authentic user."
             var timestamp = new Date().getTime();
-            Logger.create({time:timestamp,log:log}).exec(function(err){
-                if(err){
+            var server = "Company"
+            Logger.create({time:timestamp,log:log,server:server}).exec(function(err){
+                              if(err){
                     res.send(500,{error:'Database Error'});
                 }
             });
