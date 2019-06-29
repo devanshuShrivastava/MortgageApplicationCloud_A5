@@ -109,22 +109,22 @@ module.exports = {
       if(0 == result.length) {
         res.send("Failed to authenticate the employee with the ID " + employeeId);
       }
-        if(data.password === password){
-          writeLogs("Authentic user")
-          res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=true&empID="+employeeId);
+          if(data.password === password){
+            writeLogs("Authentic user")
+            res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=true&empID="+employeeId);
+          }
+          else{
+            writeLogs("Not authentic user")
+            res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=false");
+          }
+      })
+    },
+    writeLogs: function(log) {
+      var timestamp = new Date().getTime();
+      Logger.create({time:timestamp,log:log}).exec(function(err){
+        if(err){
+            res.send(500,{error:'Database Error'});
         }
-        else{
-          writeLogs("Not authentic user")
-          res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=false");
-        }
-    })
-  },
-  writeLogs: function(log) {
-    var timestamp = new Date().getTime();
-    Logger.create({time:timestamp,log:log}).exec(function(err){
-      if(err){
-          res.send(500,{error:'Database Error'});
-      }
-  });
-  },
+    });
+    },
 };
