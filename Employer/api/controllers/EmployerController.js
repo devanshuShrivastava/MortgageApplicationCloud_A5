@@ -28,16 +28,24 @@ module.exports = {
       password:password
     }).exec(function(err) {
       if (err) {
-        writeLogs("Database Error")
+        var log = "Database Error";
+        var timestamp = new Date().getTime();
+        Logger.create({time:timestamp,log:log}).exec(function(err){
+            if(err){
+                res.send(500,{error:'Database Error'});
+            }
         res.send(500, { error: "Database Error" });
+        });
       }
-      writeLogs("Data sent from company.")
-      // var timestamp = new Date().getTime();
-      //   Logger.create({time:timestamp,log:log}).exec(function(err){
-      //     if(err){
-      //         res.send(500,{error:'Database Error'});
-      //     }
+      var log = "Packet is complete.";
+      var timestamp = new Date().getTime();
+      Logger.create({time:timestamp,log:log}).exec(function(err){
+          if(err){
+              res.send(500,{error:'Database Error'});
+          }
       res.redirect("https://company-portal-frontend.herokuapp.com/employee/results?empID="+empID);
+
+      });
       });
 
   },
@@ -55,45 +63,53 @@ module.exports = {
     var employeeId = req.body.empID;
     var address = req.body.address;
     var mbrID = req.body.mbrID;
-
-    console.log("sdfsdfsdfsdfsd=>"+ employeeId);
-
     Employer.find({empID: employeeId}).exec(function(err, result) {
       var data = result[0];
-      console.log(data)
       var name = data.fullName;
       var tenure = data.tenure;
       // var designation = data.designation;
       var salary = data.salary;
       var email = data.email;
-      console.log(mbrID + "Hello");
 
       if (err) {
-        writeLogs( "Database Error when retrieving info about employee with ID " + employeeId)
         res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
       }
       var endpointURL = address+"?name="+name+"&email="+email+"&id="+mbrID+"&tenure="+tenure+"&salary="+salary+"";
-      writeLogs("MBR-id: "+mbrID )
-
+      var log = "MBR id = "+mbrID;
+      var timestamp = new Date().getTime();
+      Logger.create({time:timestamp,log:log}).exec(function(err){
+          if(err){
+              res.send(500,{error:'Database Error'});
+          }
+      });
       request.get({
         url: endpointURL
       },
         function(error, response, body) {
-          writeLogs(endpointURL);
 
           if (error) {
-            writeLogs(error);
+            var log = "Something went wrong";
+            var timestamp = new Date().getTime();
+            Logger.create({time:timestamp,log:log}).exec(function(err){
+                if(err){
+                    res.send(500,{error:'Database Error'});
+                }
+            });
           }
           else {
-            writeLogs(body);
-            writeLogs(response);
-            writeLogs(endpointURL);
+            var log = "body,response,enpoint=>"+body+response+endpointURL;
+            var timestamp = new Date().getTime();
+            Logger.create({time:timestamp,log:log}).exec(function(err){
+                if(err){
+                    res.send(500,{error:'Database Error'});
+                }
+            });
 
             var bodyObject = JSON.parse(body);
             var status = bodyObject.status;
 
             if("success" == status) {
-              res.send("<h2>We have successfully forwarded your application.</h2> <h2>Please check MBR portal for the application progress.</h2>");
+              res.send("<h2><center>We have successfully forwarded your application.</h2> <h2>Please check MBR portal for the application progress.</center></h2>");
             }
             else {
               res.send("<h2>We have forwarded your application, but some error happened on the MBR side.</h2> <h2> MBR response is: "+body + "</h2>");
@@ -108,9 +124,14 @@ module.exports = {
     var employeeId = req.body.empID;
     Employer.find({empID: employeeId}).exec(function(err, result) {
       var data = result[0];
-      console.log("debanshusdajfbnasdkjfbaljks"+data);
       if (err) {
-        writeLogs("Database Error when retrieving info about employee with ID ")
+        var log = "Database Error when retrieving info about employee with ID "
+        var timestamp = new Date().getTime();
+        Logger.create({time:timestamp,log:log}).exec(function(err){
+            if(err){
+                res.send(500,{error:'Database Error'});
+            }
+        });
         res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
       }
 
@@ -118,20 +139,26 @@ module.exports = {
         res.send("Failed to authenticate the employee with the ID " + employeeId);
       }
           if(data.password === password){
+            var log = "Authentic user."
+            var timestamp = new Date().getTime();
+            Logger.create({time:timestamp,log:log}).exec(function(err){
+                if(err){
+                    res.send(500,{error:'Database Error'});
+                }
+            });
             res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=true&empID="+employeeId);
           }
           else{
+            var log = "Not authentic user."
+            var timestamp = new Date().getTime();
+            Logger.create({time:timestamp,log:log}).exec(function(err){
+                if(err){
+                    res.send(500,{error:'Database Error'});
+                }
+            });
             res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=false");
           }
       })
     },
-    writeLogs(log) {
-      var timestamp = new Date().getTime();
-      Logger.create({time:timestamp,log:log}).exec(function(err){
-        if(err){
-            res.send(500,{error:'Database Error'});
-        }
-    });
-    }
 };
 
