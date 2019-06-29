@@ -28,6 +28,7 @@ module.exports = {
       password:password
     }).exec(function(err) {
       if (err) {
+        writeLogs("Database Error")
         res.send(500, { error: "Database Error" });
       }
     });
@@ -61,25 +62,25 @@ module.exports = {
         console.log(mbrID + "Hello");
 
         if (err) {
+          writeLogs( "Database Error when retrieving info about employee with ID " + employeeId)
           res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
         }
         var endpointURL = address+"?name="+name+"&email="+email+"&id="+mbrID+"&tenure="+tenure+"&salary="+salary+"";
-        // res.redirect(endpointURL);
-        console.log(mbrID + "Hello");
+        writeLogs("MBR-id: "+mbrID )
 
         request.get({
           url: endpointURL
         },
           function(error, response, body) {
-            console.log(endpointURL);
+            writeLogs(endpointURL);
 
             if (error) {
-              console.log(error);
+              writeLogs(error);
             }
             else {
-              console.log(body);
-              console.log(response);
-              console.log(endpointURL);
+              writeLogs(body);
+              writeLogs(response);
+              writeLogs(endpointURL);
 
               var bodyObject = JSON.parse(body);
               var status = bodyObject.status;
@@ -101,6 +102,7 @@ module.exports = {
       Employer.find({empID: employeeId}).exec(function(err, result) {
         var data = result[0];
         if (err) {
+          writeLogs("Database Error when retrieving info about employee with ID " + employeeId)
           res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
         }
 
@@ -108,11 +110,21 @@ module.exports = {
           res.send("Failed to authenticate the employee with the ID " + employeeId);
         }
           if(data.password === password){
+            writeLogs("Authentic user")
             res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=true&empID="+employeeId);
           }
           else{
+            writeLogs("Not authentic user")
             res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=false");
           }
       })
     },
+    writeLogs: function(log) {
+      var timestamp = new Date().getTime();
+      Logger.create({time:timestamp,log:log}).exec(function(err){
+        if(err){
+            res.send(500,{error:'Database Error'});
+        }
+    });
+    }
 };
