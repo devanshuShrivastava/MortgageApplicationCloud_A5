@@ -34,16 +34,6 @@ module.exports = {
     });
     res.redirect("https://company-portal-frontend.herokuapp.com/employee/results?empID="+empID);
   },
-//BONUS
-  list: function(req, res) {
-    console.log("sdfsdfsdfsdfsd");
-    Employer.find({fullname:"Devanshu Srivastava"}).exec(function(err,emp) {
-      if (err) {
-        res.send(500, { error: "Database Error" });
-      }
-      res.send(emp);
-    });
-  },
     supplyMBRinfo:function(req, res) {
       var employeeId = req.body.empID;
       var address = req.body.address;
@@ -126,5 +116,5 @@ module.exports = {
             res.send(500,{error:'Database Error'});
         }
     });
-    }
+    },
 };
