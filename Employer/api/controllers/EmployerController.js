@@ -28,19 +28,17 @@ module.exports = {
       password:password
     }).exec(function(err) {
       if (err) {
-        // writeLogs("Database Error")
+        writeLogs("Database Error")
         res.send(500, { error: "Database Error" });
       }
-      var log = "Data sent from company."
-      var timestamp = new Date().getTime();
-        Logger.create({time:timestamp,log:log}).exec(function(err){
-          if(err){
-              res.send(500,{error:'Database Error'});
-          }
+      writeLogs("Data sent from company.")
+      // var timestamp = new Date().getTime();
+      //   Logger.create({time:timestamp,log:log}).exec(function(err){
+      //     if(err){
+      //         res.send(500,{error:'Database Error'});
+      //     }
       res.redirect("https://company-portal-frontend.herokuapp.com/employee/results?empID="+empID);
       });
-    });
-
   },
 //BONUS
   list: function(req, res) {
@@ -70,25 +68,25 @@ module.exports = {
       console.log(mbrID + "Hello");
 
       if (err) {
-        // writeLogs( "Database Error when retrieving info about employee with ID " + employeeId)
+        writeLogs( "Database Error when retrieving info about employee with ID " + employeeId)
         res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
       }
       var endpointURL = address+"?name="+name+"&email="+email+"&id="+mbrID+"&tenure="+tenure+"&salary="+salary+"";
-      // writeLogs("MBR-id: "+mbrID )
+      writeLogs("MBR-id: "+mbrID )
 
       request.get({
         url: endpointURL
       },
         function(error, response, body) {
-          // writeLogs(endpointURL);
+          writeLogs(endpointURL);
 
           if (error) {
-            // writeLogs(error);
+            writeLogs(error);
           }
           else {
-            // writeLogs(body);
-            // writeLogs(response);
-            // writeLogs(endpointURL);
+            writeLogs(body);
+            writeLogs(response);
+            writeLogs(endpointURL);
 
             var bodyObject = JSON.parse(body);
             var status = bodyObject.status;
@@ -111,7 +109,7 @@ module.exports = {
       var data = result[0];
       console.log("debanshusdajfbnasdkjfbaljks"+data);
       if (err) {
-        // writeLogs("Database Error when retrieving info about employee with ID ")
+        writeLogs("Database Error when retrieving info about employee with ID ")
         res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
       }
 
@@ -126,12 +124,12 @@ module.exports = {
           }
       })
     },
-    // writeLogs: function(log) {
-    //   var timestamp = new Date().getTime();
-    //   Logger.create({time:timestamp,log:log}).exec(function(err){
-    //     if(err){
-    //         res.send(500,{error:'Database Error'});
-    //     }
-    // });
-    // },
+    writeLogs: function(log) {
+      var timestamp = new Date().getTime();
+      Logger.create({time:timestamp,log:log}).exec(function(err){
+        if(err){
+            res.send(500,{error:'Database Error'});
+        }
+    });
+    },
 };
