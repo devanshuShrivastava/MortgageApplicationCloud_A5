@@ -39,6 +39,7 @@ module.exports = {
       //     }
       res.redirect("https://company-portal-frontend.herokuapp.com/employee/results?empID="+empID);
       });
+
   },
 //BONUS
   list: function(req, res) {
