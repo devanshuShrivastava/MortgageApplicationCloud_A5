@@ -28,6 +28,7 @@ module.exports = {
       password:password
     }).exec(function(err) {
       if (err) {
+        writeLogs("Database Error")
         res.send(500, { error: "Database Error" });
       }
     });
@@ -43,76 +44,87 @@ module.exports = {
       res.send(emp);
     });
   },
-    supplyMBRinfo:function(req, res) {
-      var employeeId = req.body.empID;
-      var address = req.body.address;
-      var mbrID = req.body.mbrID;
+  supplyMBRinfo:function(req, res) {
+    var employeeId = req.body.empID;
+    var address = req.body.address;
+    var mbrID = req.body.mbrID;
 
-      console.log("sdfsdfsdfsdfsd=>"+ employeeId);
+    console.log("sdfsdfsdfsdfsd=>"+ employeeId);
 
-      Employer.find({empID: employeeId}).exec(function(err, result) {
-        var data = result[0];
-        console.log(data)
-        var name = data.fullName;
-        var tenure = data.tenure;
-        // var designation = data.designation;
-        var salary = data.salary;
-        var email = data.email;
-        console.log(mbrID + "Hello");
+    Employer.find({empID: employeeId}).exec(function(err, result) {
+      var data = result[0];
+      console.log(data)
+      var name = data.fullName;
+      var tenure = data.tenure;
+      // var designation = data.designation;
+      var salary = data.salary;
+      var email = data.email;
+      console.log(mbrID + "Hello");
 
-        if (err) {
-          res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
-        }
-        var endpointURL = address+"?name="+name+"&email="+email+"&id="+mbrID+"&tenure="+tenure+"&salary="+salary+"";
-        // res.redirect(endpointURL);
-        console.log(mbrID + "Hello");
+      if (err) {
+        writeLogs( "Database Error when retrieving info about employee with ID " + employeeId)
+        res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
+      }
+      var endpointURL = address+"?name="+name+"&email="+email+"&id="+mbrID+"&tenure="+tenure+"&salary="+salary+"";
+      writeLogs("MBR-id: "+mbrID )
 
-        request.get({
-          url: endpointURL
-        },
-          function(error, response, body) {
-            console.log(endpointURL);
+      request.get({
+        url: endpointURL
+      },
+        function(error, response, body) {
+          writeLogs(endpointURL);
 
-            if (error) {
-              console.log(error);
+          if (error) {
+            writeLogs(error);
+          }
+          else {
+            writeLogs(body);
+            writeLogs(response);
+            writeLogs(endpointURL);
+
+            var bodyObject = JSON.parse(body);
+            var status = bodyObject.status;
+
+            if("success" == status) {
+              res.send("<h2>We have successfully forwarded your application.</h2> <h2>Please check MBR portal for the application progress.</h2>");
             }
             else {
-              console.log(body);
-              console.log(response);
-              console.log(endpointURL);
-
-              var bodyObject = JSON.parse(body);
-              var status = bodyObject.status;
-
-              if("success" == status) {
-                res.send("<h2>We have successfully forwarded your application.</h2> <h2>Please check MBR portal for the application progress.</h2>");
-              }
-              else {
-                res.send("<h2>We have forwarded your application, but some error happened on the MBR side.</h2> <h2> MBR response is: "+body + "</h2>");
-              }
+              res.send("<h2>We have forwarded your application, but some error happened on the MBR side.</h2> <h2> MBR response is: "+body + "</h2>");
             }
-        })
-      });
-    },
-
-    authenticateUser: function (req, res) {
-      var password=req.body.password;
-      var employeeId = req.body.empID;
-      Employer.find({empID: employeeId}).exec(function(err, result) {
-        var data = result[0];
-        if (err) {
-          res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
-        }
-
-        if(0 == result.length) {
-          res.send("Failed to authenticate the employee with the ID " + employeeId);
-        }
-          if(data.password === password){
-            res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=true&empID="+employeeId);
-          }
-          else{
-            res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=false");
           }
       })
-    },
+    });
+  },
+
+  authenticateUser: function (req, res) {
+    var password=req.body.password;
+    var employeeId = req.body.empID;
+    Employer.find({empID: employeeId}).exec(function(err, result) {
+      var data = result[0];
+      if (err) {
+        writeLogs("Database Error when retrieving info about employee with ID " + employeeId)
+        res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
+      }
+
+      if(0 == result.length) {
+        res.send("Failed to authenticate the employee with the ID " + employeeId);
+      }
+        if(data.password === password){
+          writeLogs("Authentic user")
+          res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=true&empID="+employeeId);
+        }
+        else{
+          writeLogs("Not authentic user")
+          res.redirect("https://company-portal-frontend.herokuapp.com/employee/authenticate?authenticated=false");
+        }
+    })
+  },
+  writeLogs: function(log) {
+    var timestamp = new Date().getTime();
+    Logger.create({time:timestamp,log:log}).exec(function(err){
+      if(err){
+          res.send(500,{error:'Database Error'});
+      }
+  });
+  },
 };
