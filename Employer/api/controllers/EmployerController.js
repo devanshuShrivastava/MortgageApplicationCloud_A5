@@ -101,6 +101,7 @@ module.exports = {
     var employeeId = req.body.empID;
     Employer.find({empID: employeeId}).exec(function(err, result) {
       var data = result[0];
+      console.log("debanshusdajfbnasdkjfbaljks"+data);
       if (err) {
         writeLogs("Database Error when retrieving info about employee with ID " + employeeId)
         res.send(500, { error: "Database Error when retrieving info about employee with ID " + employeeId});
