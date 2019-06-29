@@ -11,7 +11,9 @@ module.exports = {
     id: { type: 'string', columnName: '_id' ,     autoIncrement: true },
     log: { type: 'string', columnName: '_logs' },
     time: { type: 'string', columnName: '_timestamp' },
-
+    owner:{
+      model:'employer'
+  }
   },
 
 };

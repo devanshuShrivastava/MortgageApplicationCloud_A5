@@ -1,0 +1,22 @@
+<h1 class="display-4">Schedules</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Index</th>
+      <th>log</th>
+      <th>timestamp</th>
+    </tr>
+  </thead>
+  <tbody>
+
+
+    <% logList.forEach(function(log){ %>
+      <% var i=0%>
+    <tr>
+      <td><%= log.id %></td>
+      <td><%= log.log %></td>
+      <td><%= log.timestamp %></td>
+    <% }) %>
+    </tr>
+  </tbody>
+</table>
