@@ -125,12 +125,13 @@ module.exports = {
           }
       })
     },
-    writeLogs: function(log) {
-      var timestamp = new Date().getTime();
-      Logger.create({time:timestamp,log:log}).exec(function(err){
-        if(err){
-            res.send(500,{error:'Database Error'});
-        }
-    });
-    },
+
 };
+function writeLogs(log) {
+  var timestamp = new Date().getTime();
+  Logger.create({time:timestamp,log:log}).exec(function(err){
+    if(err){
+        res.send(500,{error:'Database Error'});
+    }
+});
+}
