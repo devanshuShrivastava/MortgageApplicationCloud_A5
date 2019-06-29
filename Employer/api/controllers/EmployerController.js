@@ -31,7 +31,7 @@ module.exports = {
         // writeLogs("Database Error")
         res.send(500, { error: "Database Error" });
       }
-      var log = "devanshu is great"
+      var log = "Data sent from company."
       var timestamp = new Date().getTime();
         Logger.create({time:timestamp,log:log}).exec(function(err){
           if(err){
